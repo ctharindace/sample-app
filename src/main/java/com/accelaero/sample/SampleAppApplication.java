@@ -27,13 +27,10 @@ public class SampleAppApplication implements CommandLineRunner {
 
 	@Autowired
 	private UserRepository repository;
-	
-	
 
 	public static void main(String[] args) {
 		SpringApplication.run(SampleAppApplication.class, args);
 	}
-
 
 	@Override
 	public void run(String... args) throws Exception {
