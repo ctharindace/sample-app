@@ -5,9 +5,9 @@ import com.accelaero.sample.gen.grpc.proto.AuthenticatorOuterClass.AuthenticateR
 import com.accelaero.sample.model.document.User;
 
 public class UserAdaptor {
-	
+
 	public static AuthenticateResponse adapt(User user) {
-		
+
 		AuthenticatorOuterClass.AuthenticateResponse.Builder resultBuilder = AuthenticatorOuterClass.AuthenticateResponse
 				.newBuilder();
 		if (user != null) {

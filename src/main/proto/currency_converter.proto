@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option java_package = "com.accelaero.sample.gen.grpc.proto";
+
+
+message CurrencyConvertRequest {
+  string fromCurrencyCode = 1;
+  string toCurrencyCode = 2;
+  double amount = 3;
+  
+}
+
+message CurrencyConvertResponse {
+  double  convertedAmount = 1;
+  bool	success = 5;
+}
+
+
+service CurrencyConverter {
+  rpc currencyConvert(CurrencyConvertRequest) returns (CurrencyConvertResponse) {}
+}
+
