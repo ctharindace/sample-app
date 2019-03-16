@@ -1,0 +1,87 @@
+buildscript {
+	ext {
+		springBootVersion = '2.1.1.RELEASE'
+		grpcVersion = '1.15.1'
+	}
+	repositories {
+		mavenCentral()
+	}
+	
+}
+
+plugins {
+  id "eclipse"
+  id "java"
+  id "com.google.protobuf" version "0.8.7"
+  id "org.springframework.boot"  version "2.1.1.RELEASE"
+  id "io.spring.dependency-management" version "1.0.6.RELEASE"
+}
+
+group = 'com.accelaero.sample'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+	mavenLocal()
+}
+
+
+dependencies {
+	implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+	implementation('org.springframework.boot:spring-boot-starter-data-mongodb')
+	implementation('org.springframework.boot:spring-boot-starter-security')
+	implementation('org.springframework.boot:spring-boot-starter-web')
+	implementation('io.github.lognet:grpc-spring-boot-starter:3.0.0')
+	implementation('org.springframework.boot:spring-boot-starter')
+	//implementation('com.fasterxml.jackson.datatype:jackson-datatype-hibernate5')
+	runtimeOnly('org.postgresql:postgresql')
+  	compileOnly('org.apache.logging.log4j:log4j-api')
+  	compileOnly('org.apache.logging.log4j:log4j-core')
+	compileOnly('org.projectlombok:lombok')
+	testImplementation('org.springframework.boot:spring-boot-starter-test')
+	testImplementation('org.springframework.security:spring-security-test')
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/protoGen'
+        }
+    }
+}
+
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.6.0'
+    }
+    plugins {
+        grpc {
+            artifact = "io.grpc:protoc-gen-grpc-java:${grpcVersion}"
+        }
+    }
+
+    generateProtoTasks {
+        ofSourceSet('main').each { task ->
+            task.builtins {
+                java{
+                    outputSubDir = 'java'
+                }
+            }
+            task.plugins {
+                grpc {
+                    outputSubDir = 'java'
+                }
+            }
+        }
+    }
+     generatedFilesBaseDir = "$projectDir/src/"
+}
+
+task cleanProtoGen{
+    doFirst{
+           delete("$projectDir/src/main/protoGen")
+    }
+}
+
+clean.dependsOn cleanProtoGen
