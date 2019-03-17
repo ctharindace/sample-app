@@ -90,12 +90,19 @@ public class SampleAppApplication implements CommandLineRunner {
 		CurrencyExchangeRate currencyExchangeRate = new CurrencyExchangeRate();
 		currencyExchangeRate.setEffectiveFrom(new Date());
 		currencyExchangeRate.setEffectiveTo(new Date());
+		currencyExchangeRate.getEffectiveTo().setYear(2020);
 		currencyExchangeRate.setCurrencyCode("AED");
 		currencyExchangeRate.setExRateFromBase(new BigDecimal("1.0"));
+		currencyExchangeRate.getExRateFromBase().setScale(2);
 		currencyExchangeRate.setExRateToBase(new BigDecimal("1.0"));
+		currencyExchangeRate.getExRateToBase().setScale(2);
 		currencyExchangeRate.setStatus("ACT");
 		
 		currencyService.saveCurrencyExchangeRate(currencyExchangeRate);
+		
+		System.out.println("--------------------------------");
+		System.out.println("--------------------------------");
+		System.out.println("--------------------------------");
 		
 		CurrencyExchangeRate exRate = currencyService.getExchangeRate("AED");
 		if (exRate != null) {

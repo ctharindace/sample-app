@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,8 +13,9 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Immutable;
 
+
 @Entity
-@Immutable     
+@Immutable
 @Table(name = "CURRENCY_EXCHANGE_RATE")
 public class CurrencyExchangeRate {
 	
@@ -25,7 +25,7 @@ public class CurrencyExchangeRate {
 	@Column(name = "EXRATE_ID")
 	private Integer currencyExchangeRateId;
 	
-	@Column(name="CURRENCY_CODE")
+	@Column(name="CURRENCY_CODE", nullable=false)
 	private String currencyCode;
 	
 	@Column(name="EFFECTIVE_FROM")
@@ -34,12 +34,10 @@ public class CurrencyExchangeRate {
 	@Column(name="EFFECTIVE_to")
 	private Date effectiveTo;
 	
-	@Convert(converter = BigDecimalConverter.class)
-	@Column(name="EXRATE_FROM_BASE", insertable = false, updatable = false)
+	@Column(name="EXRATE_FROM_BASE")
 	private BigDecimal exRateFromBase;
 	
-	@Convert(converter = BigDecimalConverter.class)
-	@Column(name="EXRATE_TO_BASE", insertable = false, updatable = false)
+	@Column(name="EXRATE_TO_BASE")
 	private BigDecimal exRateToBase;
 	
 	@Column(name="STATUS")

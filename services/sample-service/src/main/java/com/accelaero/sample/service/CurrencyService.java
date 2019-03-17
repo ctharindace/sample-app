@@ -5,8 +5,8 @@ import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.accelaero.sample.data.postgre.dao.CurrencyExchangeRateRepository;
-import com.accelaero.sample.data.postgre.dao.CurrencyRepository;
+import com.accelaero.sample.data.postgre.dao.hibenate.CurrencyDAO;
+import com.accelaero.sample.data.postgre.dao.hibenate.CurrencyExchangeRateDAO;
 import com.accelaero.sample.model.rdbms.Currency;
 import com.accelaero.sample.model.rdbms.CurrencyExchangeRate;
 
@@ -14,28 +14,28 @@ import com.accelaero.sample.model.rdbms.CurrencyExchangeRate;
 public class CurrencyService {
 	
 	@Autowired
-	private CurrencyExchangeRateRepository currencyExchangeRateRepository;
+	private CurrencyDAO currencyDAO;
 	
 	@Autowired
-	private CurrencyRepository currencyRepository;
+	private CurrencyExchangeRateDAO currencyExchangeRateDAO;
 	
 	public BigDecimal convertedAmount(String fromCurrencyCode, String toCurrencyCode, BigDecimal amount) {
-		CurrencyExchangeRate fromRate = currencyExchangeRateRepository.getExchangeRate(fromCurrencyCode);
-		CurrencyExchangeRate toRate = currencyExchangeRateRepository.getExchangeRate(toCurrencyCode);
-		return new BigDecimal("0.0");
+		CurrencyExchangeRate fromRate = currencyExchangeRateDAO.getCurrencyExchangeRate(fromCurrencyCode);
+		CurrencyExchangeRate toRate = currencyExchangeRateDAO.getCurrencyExchangeRate(toCurrencyCode);
+		return fromRate.getExRateFromBase().divide(toRate.getExRateToBase()).multiply(amount);
 	}
 	
 	public CurrencyExchangeRate getExchangeRate(String fromCurrencyCode) {
-		CurrencyExchangeRate fromRate = currencyExchangeRateRepository.getExchangeRate(fromCurrencyCode);
+		CurrencyExchangeRate fromRate = currencyExchangeRateDAO.getCurrencyExchangeRate(fromCurrencyCode);
 		return fromRate;
 	}
 	
 	public void saveCurrency(Currency currency) {
-		currencyRepository.save(currency);
+		currencyDAO.save(currency);
 	}
 	
 	public void saveCurrencyExchangeRate(CurrencyExchangeRate currencyExchangeRate) {
-		currencyExchangeRateRepository.save(currencyExchangeRate);
+		currencyExchangeRateDAO.save(currencyExchangeRate);
 	}
 
 }

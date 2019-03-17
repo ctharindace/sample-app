@@ -34,6 +34,9 @@ dependencies {
 	implementation('org.springframework.boot:spring-boot-starter-web')
 	implementation('io.github.lognet:grpc-spring-boot-starter:3.0.0')
 	implementation('org.springframework.boot:spring-boot-starter')
+	implementation('org.springframework.boot:spring-boot-starter-jdbc')
+	compile group: 'org.hibernate', name: 'hibernate-core'
+	runtimeOnly 'com.h2database:h2'
 	//implementation('com.fasterxml.jackson.datatype:jackson-datatype-hibernate5')
 	runtimeOnly('org.postgresql:postgresql')
   	compileOnly('org.apache.logging.log4j:log4j-api')
