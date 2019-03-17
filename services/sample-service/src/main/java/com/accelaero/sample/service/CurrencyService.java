@@ -22,7 +22,7 @@ public class CurrencyService {
 	public BigDecimal convertedAmount(String fromCurrencyCode, String toCurrencyCode, BigDecimal amount) {
 		CurrencyExchangeRate fromRate = currencyExchangeRateDAO.getCurrencyExchangeRate(fromCurrencyCode);
 		CurrencyExchangeRate toRate = currencyExchangeRateDAO.getCurrencyExchangeRate(toCurrencyCode);
-		return fromRate.getExRateFromBase().divide(toRate.getExRateToBase()).multiply(amount);
+		return fromRate.getExRateToBase().multiply(toRate.getExRateFromBase()).multiply(amount);
 	}
 	
 	public CurrencyExchangeRate getExchangeRate(String fromCurrencyCode) {
